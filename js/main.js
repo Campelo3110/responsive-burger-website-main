@@ -47,24 +47,29 @@ window.addEventListener("scroll", scrollUp)
 const sections = document.querySelectorAll("section[id]")
 
 const scrollActive = () => {
-    const scrollDown = window.scrollY
+  const scrollY = window.scrollY
 
-    sections.forEach(current => {
-        const sectionHeight = current.offsetHeight,
-            sectionTop = current.offsetTop - 58,
-            sectionId = current.getAttribute("id"),
-            sectionsClass = document.querySelector(".nav__menu a[href*=" + sectionId + "]")
-        
-            if (scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight)
-            {
-                sectionsClass.classList.add("active-link")
-            }else{
-                sectionsClass.classList.remove("active-link")
-            }
-    })
+  sections.forEach(current => {
+    const sectionHeight = current.offsetHeight;
+
+    const sectionTop = current.offsetTop - 58;
+    const sectionId = current.getAttribute("id");
+    const sectionsClass = document.querySelector(`.nav__menu a[href*=${sectionId}]`)
+
+
+    if (sectionsClass) 
+ {
+      sectionsClass.classList.remove("active-link") // Remover a classe de todos antes de adicionar
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        sectionsClass.classList.add("active-link")
+      }
+    }
+  })
 }
 
-widnows.addEventListener("scroll", scrollActive)
+// Chamar a função scrollActive no carregamento da página e em cada rolagem
+window.addEventListener('load', scrollActive);
+window.addEventListener('scroll', scrollActive);
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
     origin: "top",
